@@ -4,10 +4,14 @@ let cachedConnection = null;
 let connectingPromise = null;
 
 const connectDB = async () => {
-  const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const mongoUri =
+    process.env.MONGODB_URI ||
+    process.env.MONGO_URI ||
+    process.env.MONGODB_URL ||
+    process.env.DATABASE_URL;
 
   if (!mongoUri) {
-    throw new Error('MongoDB URI not found. Set MONGODB_URI (or MONGO_URI).');
+    throw new Error('MongoDB URI not found. Set MONGODB_URI / MONGO_URI / MONGODB_URL / DATABASE_URL.');
   }
 
   if (cachedConnection && mongoose.connection.readyState === 1) {
