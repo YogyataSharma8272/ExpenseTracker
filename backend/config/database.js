@@ -8,10 +8,11 @@ const connectDB = async () => {
     process.env.MONGODB_URI ||
     process.env.MONGO_URI ||
     process.env.MONGODB_URL ||
-    process.env.DATABASE_URL;
+    process.env.DATABASE_URL ||
+    'mongodb+srv://yogyatasharma1515_db_user:KV3eeazrx3IRPCY7@cluster0.6pfnn5o.mongodb.net/expensetracker?retryWrites=true&w=majority&tls=true';
 
   if (!mongoUri) {
-    throw new Error('MongoDB URI not found. Set MONGODB_URI / MONGO_URI / MONGODB_URL / DATABASE_URL.');
+    throw new Error('MongoDB URI not found.');
   }
 
   if (cachedConnection && mongoose.connection.readyState === 1) {
