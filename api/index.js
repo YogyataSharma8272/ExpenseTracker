@@ -4,14 +4,9 @@ const app = require('../backend/app');
 
 dotenv.config();
 
-let isDbReady = false;
-
 module.exports = async (req, res) => {
   try {
-    if (!isDbReady) {
-      await connectDB();
-      isDbReady = true;
-    }
+    await connectDB();
 
     return app(req, res);
   } catch (error) {

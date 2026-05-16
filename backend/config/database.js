@@ -4,6 +4,12 @@ let cachedConnection = null;
 let connectingPromise = null;
 
 const connectDB = async () => {
+  const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+
+  if (!mongoUri) {
+    throw new Error('MongoDB URI not found. Set MONGODB_URI (or MONGO_URI).');
+  }
+
   if (cachedConnection && mongoose.connection.readyState === 1) {
     return cachedConnection;
   }
@@ -13,9 +19,10 @@ const connectDB = async () => {
   }
 
   try {
-    connectingPromise = mongoose.connect(process.env.MONGODB_URI, {
+    connectingPromise = mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
     });
 
     const conn = await connectingPromise;
